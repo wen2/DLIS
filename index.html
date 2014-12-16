@@ -1,0 +1,536 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>showResults PHP page</title>
+<link rel="stylesheet" type="text/css" href="css/final.css" />
+<link rel="stylesheet" href="css/style_menu01.css" type="text/css" media="all"/>
+<style type="text/css">
+.resultStyle {
+	font-size:14px;
+	color:#00F;
+	margin-top:25px;
+}
+
+</style>
+</head>
+
+<body>
+<div id="container">
+<?php include 'header.php'; ?>
+<div id="content"><!--------------------------->
+
+<div class="block-inner clearfix">
+                
+    <div class="content clearfix">
+      <script type="text/javascript">
+<!--
+(function($) {
+  $(document).ready(function(){
+    $(".tab").click(function(){$(".con").hide();$(".tab").removeClass('picked');});
+    $(".tab.cat").click(function(){$(".con.cat").show();$(".con.cat").show();$('.tab.cat').addClass('picked');});
+    $(".tab.art").click(function(){$(".con.art").show();$(".opt").hide();$(".opt.art").show();$(this).addClass('picked');});
+    $(".tab.jou").click(function(){$(".con.jou").show();$(".opt").hide();$(".opt.jou").show();$(this).addClass('picked');});
+    $(".tab.reserves").click(function(){$(".con.reserves").show();$(".opt").hide();$(".opt.reserves").show();$(this).addClass('picked');});
+    //$(".tab.health").click(function(){$(".con.health").show();$(this).addClass('picked');});
+
+    //create an object of input data wells
+    dataWells = new Object();
+    dataWells.inputIris = "Search for books, music, movies, and more";
+    dataWells.ebscohostsearchtext = "Search for articles across multiple library databases";
+    dataWells.inputJournals = "Search for journals, magazines, and newpapers";
+    dataWells.inputReserves = "Search for course reserves";
+
+    //handle input box interaction
+    $('.input').focus(function(){
+      var thisInputVal = eval('dataWells.'+$(this).attr('id'));
+      if ($(this).val() == thisInputVal) {
+        $(this).attr('value', '');
+        $(this).removeClass('noFocus');
+      }
+    }).blur(function(){
+      setInputFieldHints();
+    });
+
+    //set defaults
+    $('input').addClass('noFocus');
+    setInputFieldHints();
+
+    /**
+     *
+     * @access public
+     * @return void
+     **/
+    function setInputFieldHints(){
+      for (var inputName in dataWells){
+        if ($('#'+inputName).val() == "") {
+          var thisInputVal = eval('dataWells.'+inputName);
+          $('#'+inputName).attr('value', thisInputVal);
+          $('#'+inputName).addClass('noFocus');
+        }
+      }
+    }
+    $('#ebscohostsearchtext').change(function(){
+      $('.input').removeClass('noFocus');
+      $('.input').val($('#ebscohostsearchtext').val());
+    });
+    $('#inputIris').change(function(){
+      $('.input').removeClass('noFocus');
+      $('.input').val($('#inputIris').val());
+    });
+    $('#inputJournals').change(function(){
+      $('.input').removeClass('noFocus');
+      $('.input').val($('#inputJournals').val());
+    });
+    $('#inputReserves').change(function(){
+      $('.input').removeClass('noFocus');
+      $('.input').val($('#inputReserves').val());
+    });
+
+    //expose default(all) at load
+    //.what-home for the home page search tabs
+    $("#qportal-all").show();
+    $('.what-home.w-qsearch').hoverIntent(showQSearch,hideQSearch);
+      function showQSearch(){$(".what-quicksearch-content").show();}
+      function hideQSearch(){$(".what-quicksearch-content").hide();}
+    $('.what-home.w-iris').hoverIntent(showIris,hideIris);
+      function showIris(){$(".what-iris-content").show();}
+      function hideIris(){$(".what-iris-content").hide();}
+    $('.what-home.w-rjournals').hoverIntent(showRJournal,hideRJournal);
+      function showRJournal(){$(".what-rjournals-content").show();}
+      function hideRJournal(){$(".what-rjournals-content").hide();}
+    $('.what-home.w-reserves').hoverIntent(showReserves,hideReserves);
+      function showReserves(){$(".what-reserves-content").show();}
+      function hideReserves(){$(".what-reserves-content").hide();}
+    $('#reserve-filter').change(function(){
+      changeReserveName();
+    });
+    
+    //for the search tabs on the library home pages
+    $('.what.w-qsearch').hoverIntent(showQSearch,hideQSearch);
+    $('.what.w-iris').hoverIntent(showIris,hideIris);
+    $('.what.w-rjournals').hoverIntent(showRJournal,hideRJournal);
+    $('.what.w-reserves').hoverIntent(showReserves,hideReserves);
+
+    /*START NEW - CVMM - October 2012*/
+    $('.tab.art').hoverIntent(showHintArt,hideHintArt);
+      function showHintArt(){$(".hint.art").show();}
+      function hideHintArt(){$(".hint.art").hide();}
+    $('.tab.cat').hoverIntent(showHintBooks,hideHintBooks);
+      function showHintBooks(){$(".hint.books").show();}
+      function hideHintBooks(){$(".hint.books").hide();}
+    $('.tab.jou').hoverIntent(showHintJournals,hideHintJournals);
+      function showHintJournals(){$(".hint.journals").show();}
+      function hideHintJournals(){$(".hint.journals").hide();}
+    $('.tab.reserves').hoverIntent(showHintReserves,hideHintReserves);
+      function showHintReserves(){$(".hint.reserves").show();}
+      function hideHintReserves(){$(".hint.reserves").hide();}
+
+    //check for empty search fields
+    $('#search_button').click(function() {
+      if ($('#ebscohostsearchtext').val() != "" && $('#ebscohostsearchtext').val() != dataWells.ebscohostsearchtext) {
+        $('#art_plus').submit();
+        return true;
+      }else {
+        alert('Please enter search term(s).');
+      }
+      return false;
+    });
+
+    $('#btnSubmitIris').click(function() {
+      if ($('#inputIris').val() != "" && $('#inputIris').val() != dataWells.inputIris) {
+        $('#bookForm').submit();
+        return true;
+      }else {
+        alert('Please enter search term(s).');
+      }
+      return false;
+    });
+
+    $('#btnSubmitJournal').click(function() {
+      if ($('#inputJournals').val() != ""  && $('#inputJournals').val() != dataWells.inputJournals) {
+        $('#journalsForm').submit();
+        return true;
+      }else {
+        alert('Please enter search term(s).');
+      }
+      return false;
+    });
+
+    $('#btnSubmitReserves').click(function() {
+      if ($('#inputReserves').val() != "" && $('#inputReserves').val() != dataWells.inputReserves) {
+        $('#reservesForm').submit();
+        return true;
+      }else {
+        alert('Please enter search term(s).');
+      }
+      return false;
+    });
+
+    //track events for search tabs and search criteria    
+    $('#search_button').click(function() {
+      _gaq.push(['_trackEvent', 'SearchTabs', 'Search', 'Articles'], ['_trackEvent', 'SearchTabsCriteria', 'Articles', $('select#dbgroup option:selected').text()]);
+      return false;
+    });
+
+    $('#ebscohostsearchtext').keydown(function(event){    
+      if(event.keyCode==13){
+        $('#search_button').trigger('click');
+      }
+    }); 
+    
+    $('#btnSubmitIris').click(function() {
+      _gaq.push(['_trackEvent', 'SearchTabs', 'Search', 'Books'], ['_trackEvent', 'SearchTabsCriteria', 'Books', $('select#srchfield1 option:selected').text()]);
+      return false;
+    });
+
+    $('#inputIris').keydown(function(event){    
+      if(event.keyCode==13){
+        $('#btnSubmitIris').trigger('click');
+      }
+    });  
+    
+    $('#btnSubmitJournal').click(function() {
+      _gaq.push(['_trackEvent', 'SearchTabs', 'Search', 'Journals'], ['_trackEvent', 'SearchTabsCriteria', 'Journals', $('#srchfield2 option:selected').text()]);
+      return false;
+    });    
+
+    $('#inputJournals').keydown(function(event){    
+      if(event.keyCode==13){
+        $('#btnSubmitJournal').trigger('click');
+      }
+    });     
+    
+    $('#btnSubmitReserves').click(function() {
+      _gaq.push(['_trackEvent', 'SearchTabs', 'Search', 'Reserves'], ['_trackEvent', 'SearchTabsCriteria', 'Reserves', $('#reserve-filter option:selected').text()]);
+      return false;
+    });  
+
+    $('#inputReserves').keydown(function(event){    
+      if(event.keyCode==13){
+        $('#btnSubmitReserves').trigger('click');
+      }
+    }); 
+    
+    //through event log for the articles tab onloading
+    _gaq.push(['_trackEvent', 'SearchTabs', 'Tab', 'Articles']);
+  
+  }); // close document.ready
+
+  function changeReserveName(){
+    $("#inputReserves").attr("name", $('#reserve-filter').val());
+  }
+})(jQuery);
+-->
+</script>
+
+<div id="tContainer">
+  <ul style="float:left">
+    <li class="tab art picked" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;SearchTabs&#39;, &#39;Tab&#39;, &#39;Articles&#39;]);">Articles</li>
+    <li class="tab cat" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;SearchTabs&#39;, &#39;Tab&#39;, &#39;Books&#39;]);">Books &amp; Media</li>
+    <li class="tab jou" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;SearchTabs&#39;, &#39;Tab&#39;, &#39;Journals&#39;]);">Journals</li>
+    <li class="tab reserves" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;SearchTabs&#39;, &#39;Tab&#39;, &#39;Reserves&#39;]);">Course Reserves</li>
+  </ul>
+<!--
+  <ul style="float:right">
+    <li class="tab health" onclick="_gaq.push(['_trackEvent', 'SearchTabs', 'Tab', 'RBHS']);">RBHS</li>
+  </ul>
+-->
+</div>
+<div id="sContainer" class="shadow">
+	<div class="beta"></div>
+	<div class="hint reserves">Search for course reserves</div>
+	<div class="hint journals">Search for journals, magazines, and newspapers</div>
+	<div class="hint books" style="display: none;">Search for books, music, movies, and more</div>
+	<div class="hint art" style="display: none;">
+
+
+
+	for articles across multiple library databases</div>
+	<div class="con art" style="display: block;">
+		<!--START QUICK SEARCH-->
+		<div class="content art">
+			<div class="what-home icon w-qsearch">
+				<div class="what-icon-q" onmouseover="_gaq.push([&#39;_trackEvent&#39;, &#39;SearchTabs&#39;, &#39;Help&#39;, &#39;Articles&#39;]);"></div>
+				<div class="what-quicksearch-content what-content what-content-front" style="display: none;">
+          <p>To find journal, magazine, or newspaper articles in Articles+, enter your search term(s) and select the appropriate search type in the pull-down menu. To view a complete list of indexes and databases, click <a href="http://www.libraries.rutgers.edu/indexes">View all databases</a>.  For more information, see <a href="http://www.libraries.rutgers.edu/what_is_articles_plus">What is Articles+?</a></p>
+				</div>
+			</div>
+      <script type="text/javascript">
+        function ebscoPreProcess(myForm) {
+          myForm.bquery.value = myForm.search_prefix.value + myForm.uquery.value;
+        }
+      </script>
+      <script type="text/javascript" src="./Home   Rutgers University Libraries_files/jquery-1.9.1.js"></script>
+      <script type="text/javascript" src="./Home   Rutgers University Libraries_files/jquery-ui.js"></script>
+      <script type="text/javascript" src="./Home   Rutgers University Libraries_files/jquery-migrate-1.0.0.js"></script>
+      <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+      <script type="text/javascript">
+        (function($jq) {
+          $jq(document).ready(function(){
+            var $jq = jQuery.noConflict();
+            $jq( "#ebscohostsearchtext" ).autocomplete({
+              source: "/sites/default/themes/RUL_D7/autocomplete.php",
+              minLength: 2,
+            });
+          });
+        })(jQuery);
+      </script>
+            <script type="text/javascript">
+        (function ($) {
+          $(document).ready(function(){
+            $.get('/sites/default/themes/RUL_D7/connect.php?access=search&search=Y&url=http%3A%2F%2Fsearch.ebscohost.com%2Flogin.aspx', function(data) { $("#art_plus").attr("action", data); });
+          });
+        })(jQuery);
+      </script>
+      <form id="art_plus" action="http://search.ebscohost.com.proxy.libraries.rutgers.edu/login.aspx" method="get" target="_blank" onsubmit="ebscoPreProcess(this)">
+        <input name="direct" value="true" type="hidden" class="noFocus">
+        <input name="scope" value="site" type="hidden" class="noFocus">
+        <input name="site" value="eds-live" type="hidden" class="noFocus">
+        <!-- Authentication and profile values -->
+        <input name="authtype" value="ip" type="hidden" class="noFocus">
+        <input name="custid" value="s8840717" type="hidden" class="noFocus">
+        <input name="groupid" value="main" type="hidden" class="noFocus">
+        <input name="profile" value="eds" type="hidden" class="noFocus">
+        <!-- Search box and submit button -->
+        <input name="bquery" value="" type="hidden" class="noFocus">
+        <div style="text-align: left; margin: 5px 0 5px 14px;">
+          <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><input id="ebscohostsearchtext" class="input noFocus ui-autocomplete-input" name="uquery" type="text" style="margin-left:0px;width:355px;" autocomplete="off">        
+          <input type="button" id="search_button" class="shiny large noFocus" title="Search Articles" value="Search">
+        </div>
+        <!-- Dropdown menu to prepend search option values -->
+        <div style="text-align: left; margin: 5px 0 0 14px;">
+          <select id="dbgroup" onchange="" name="search_prefix" style="margin-left:0px;width:355px;">
+            <option selected="selected" value="">Keyword</option>
+            <option value="TI ">Title</option>
+            <option value="AU ">Author</option>
+          </select>
+        </div>
+      </form>
+      <div class="advanced">
+          <a href="http://www.libraries.rutgers.edu/indexes" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;SearchTabs&#39;, &#39;Advanced&#39;, &#39;Articles&#39;]);">View all databases</a>  <!--<a style="padding-left:3em;display:block;float:right;" href="http://libraries.rbhs.rutgers.edu/databases.html">View Health Sciences databases</a>-->
+      </div>
+        <span class="ru_restricted" style="padding-left:1.2em;">(<a href="http://www.libraries.rutgers.edu/how_do_i/connect_from_off-campus">Information for off-campus users.</a>) <a href="http://www.libraries.rutgers.edu/how_do_i/connect_from_off-campus" title="Connecting from off-campus"><img src="./Home   Rutgers University Libraries_files/help_refresh.png" alt="Connecting from off-campus"></a></span>
+		</div>
+		<!--END QUICK SEARCH-->
+	</div>
+
+	<div class="con cat" style="display: none;">
+		<!--START LIBRARY CATALOG-->
+		<div class="content cat">
+			<div class="what-home icon w-iris">
+				<div class="what-icon-q" onmouseover="_gaq.push([&#39;_trackEvent&#39;, &#39;SearchTabs&#39;, &#39;Help&#39;, &#39;Books&#39;]);"></div>
+				<div class="what-iris-content what-content what-content-front">
+					<p>To find books and more in the Library Catalog, enter your term(s) and select a search type in the pull-down menu.    For more information see <a href="http://www.libraries.rutgers.edu/how_do_i/find_a_book">How Do I Find a Book?</a></p>
+				</div>
+			</div>
+			<div id="iris-opt-1">
+				<form method="post" action="https://www.iris.rutgers.edu/cgi-bin/IRISquickSearch.cgi" name="irissearch" id="bookForm">
+					<input type="hidden" name="library" value="ALL" class="noFocus">
+					<input type="hidden" name="sort_by" value="ANY" class="noFocus">
+					<input type="hidden" name="query_type" value="" class="noFocus">
+					<div style="text-align: left; margin: 5px 0 5px 14px;">
+            <label for="inputIris" style="display:none;visibility:hidden;">Search for books and media</label>
+            <input id="inputIris" class="input noFocus" value="" name="searchdata1" type="text" style="width: 355px;">
+            <input type="button" id="btnSubmitIris" class="shiny large noFocus" title="Search Books &amp; Media" value="Search">           
+          </div>
+					<div style="text-align: left; margin: 5px 0 0 14px;">
+            <label for="srchfield1" style="display:none;visibility:hidden;">Limit your search by</label>
+						<select name="srchfield1" id="srchfield1">
+							<option value="GENERAL^SUBJECT^GENERAL^^words anywhere">Words anywhere</option>
+							<option value="TP">Title begins with (omit first article)</option>
+							<option value="AP">Author (last name first)</option>
+							<option value="SU^SUBJECT^SUBJECTS^^subject">Subject keyword</option>
+						</select>
+					</div>
+				</form>
+				<div class="advanced" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;SearchTabs&#39;, &#39;Advanced&#39;, &#39;Books&#39;]);">
+          <span class="iris_link"><a href="https://login.proxy.libraries.rutgers.edu/login?url=https://www.iris.rutgers.edu/iris.html" target="_blank">More options</a></span>
+          <script type="text/javascript">
+                        (function ($) {
+            $('.iris_link').load('/sites/default/themes/RUL_D7/checkProxy.php?url=https%3A%2F%2Fwww.iris.rutgers.edu%2Firis.html&link_text=More+options');
+            })(jQuery);
+          </script>
+        </div>
+			</div>
+		</div>
+		<!--END LIBRARY CATALOG-->
+	</div>
+
+	<div class="con jou" style="display: none;">
+		<!--START RUTGERS JOURNALS-->
+		<div class="content jou">
+			<div class="what-home icon w-rjournals">
+				<div class="what-icon-q" onmouseover="_gaq.push([&#39;_trackEvent&#39;, &#39;SearchTabs&#39;, &#39;Help&#39;, &#39;Journals&#39;]);"></div>
+				<div class="what-rjournals-content what-content what-content-front">
+					<p>To find a print or electronic journal in the Rutgers collections, enter its title or keywords in the title and select the appropriate search type in the pull-down menu. For more information, see <a href="http://www.libraries.rutgers.edu/how_do_i/know_ru_has_a_journal">How Do I Find a Journal?</a></p>
+				</div>
+			</div>
+			<form method="post" action="https://www.iris.rutgers.edu/cgi-bin/IRISquickSearch.cgi" name="journalsearch" id="journalsForm">
+				<div style="text-align: left; margin: 5px 0 5px 14px;">
+          <label for="inputJournals" style="display:none;visibility:hidden;">Search for journals, magazines and newspapers</label>
+          <input id="inputJournals" class="input noFocus" name="searchdata1" value="" type="text" style="width: 355px;">       	
+          <input type="button" id="btnSubmitJournal" class="shiny large noFocus" title="Search Journals" value="Search">        
+        </div>
+        <div style="text-align: left; margin: 5px 0 0 14px;">
+          <label for="srchfield2" style="display:none;visibility:hidden;">Limit your search by</label>
+					<select name="srchfield1" id="srchfield2">
+						<option value="PP">Journal title begins with</option>
+						<option value="PER^PERTITLE^TITLES^Title+Processing^periodical title">Journal title keyword</option>
+					</select>
+				</div>
+			</form>
+			<div class="advanced" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;SearchTabs&#39;, &#39;Advanced&#39;, &#39;Journals&#39;]);">
+        <span class="ebsco_link"><a href="https://login.proxy.libraries.rutgers.edu/login?url=http://atoz.ebsco.com/home.asp?id=1729" target="_blank">E-journals only</a></span>
+        <script type="text/javascript">
+                    (function ($) {
+          $('.ebsco_link').load('/sites/default/themes/RUL_D7/checkProxy.php?url=http%3A%2F%2Fatoz.ebsco.com%2Fhome.asp%3Fid%3D1729&link_text=E-journals+only');
+          })(jQuery);
+        </script>
+      </div>
+		</div>
+		<!--END RUTGERS JOURNALS-->
+	</div>
+
+	<div class="con reserves" style="display: none;">
+		<!--START RESERVES-->
+		<div class="content reserves">
+			<div class="what-home icon w-reserves">
+				<div class="what-icon-q" onmouseover="_gaq.push([&#39;_trackEvent&#39;, &#39;SearchTabs&#39;, &#39;Help&#39;, &#39;Reserves&#39;]);"></div>
+				<div class="what-reserves-content what-content what-content-front">
+					<p>To find a list of books, textbooks, and electronic articles placed on course reserve by your instructor, enter your instructor's last name and search.  You can also use the pull-down menu to search by course title or number.</p>
+				</div>
+			</div>
+			<form method="post" action="https://www.iris.rutgers.edu/cgi-bin/getreserve" id="reservesForm">
+				<input type="hidden" name="type" value="reserves" class="noFocus">
+				<div style="text-align: left; margin: 5px 0 5px 14px;">
+          <label for="inputReserves" style="display:none;visibility:hidden;">Search for course reserves</label>
+          <input id="inputReserves" class="input noFocus" value="" name="instructor" type="text" style="width: 355px;">
+          <input type="button" id="btnSubmitReserves" class="shiny large noFocus" title="Search Course Reserves" value="Search">                   
+        </div>
+				<div style="text-align: left; margin: 5px 0 5px 14px;">
+          <label for="reserve-filter" style="display:none;visibility:hidden;">Limit your search by</label>
+					<select name="reserve-type" id="reserve-filter">
+						<option value="instructor">Instructor</option>
+						<option value="coursename">Course title</option>
+						<option value="coursenumber">Course number</option>
+					</select>
+          <div class="ru_restricted">(<a href="http://www.libraries.rutgers.edu/how_do_i/connect_from_off-campus">Information for off-campus users.</a>) <a href="http://www.libraries.rutgers.edu/how_do_i/connect_from_off-campus" title="Connecting from off-campus"><img src="./Home   Rutgers University Libraries_files/help_refresh.png" alt="Connecting from off-campus"></a></div>
+        </div>
+			</form>
+    </div>
+  </div>
+<!--
+  <div class="con health">
+    <div style="width:29em; border-radius: 5px; border: 1px solid #ededed; background: #f2f2f2; margin: -3px 0px 0px 12px;">
+      <p style="margin:0 0 0 10px">
+        Rutgers Biomedical and Health Sciences Resources
+        <br />
+        <a href="http://libraries.rbhs.rutgers.edu/databases.html">Health Sciences databases</a>
+        <br />
+        <a href="https://login.proxy.libraries.rutgers.edu/login?url=https://www.iris.rutgers.edu/hs">Health Sciences Catalog</a>
+        <br />
+        <a href="http://sfx.umdnj.edu/cgi-bin/index.cgi">Health Sciences E-journals</a>
+        <br />
+        <a href="http://libraries.rbhs.rutgers.edu/multimedia.html">Health Sciences Image & Video Collections</a>
+        <br />
+        <a href="http://libraries.rbhs.rutgers.edu/">RBHS Community</a>
+      </p>
+    </div>
+  </div>
+-->
+</div>    </div>
+  </div>
+</div><section class="block block-views block-73b978c1df3f8781c8526993811bd58f block-views-73b978c1df3f8781c8526993811bd58f even" id="block-views-73b978c1df3f8781c8526993811bd58f">
+  <div class="block-inner clearfix">
+              <h2 class="block-title">News and Events</h2>
+            
+    <div class="content clearfix">
+      <div class="view view-alternate-front-page-news view-id-alternate_front_page_news view-display-id-block_1 view-dom-id-b03b709dfb03898bc626a48fa06e247b">
+        
+  
+      <div class="attachment attachment-before">
+      <div class="view view-alternate-front-page-news view-id-alternate_front_page_news view-display-id-attachment_1">
+        
+  
+  
+      <div class="view-content">
+        <div class="views-row views-row-1 views-row-odd views-row-first views-row-last">
+    <div class="panel-display panel-2col clearfix">
+  <div class="panel-panel panel-col-first">
+    <div class="inside">  
+  <div class="views-field views-field-field-feature-image">        <div class="field-content"><a href="http://www.libraries.rutgers.edu/news/do-you-use-libraries-health-sciences-resources-your-opinion-counts"><img typeof="foaf:Image" src="./Home   Rutgers University Libraries_files/surveyimage_small.png" width="200" height="133" alt=""></a></div>  </div></div>
+  </div>
+
+  <div class="panel-panel panel-col-last">
+    <div class="inside">  
+  <div class="views-field views-field-field-feature-teaser-1">        <div class="field-content"><span class="teaser_title"><a href="http://www.libraries.rutgers.edu/news/do-you-use-libraries-health-sciences-resources-your-opinion-counts">Do you use the libraries health sciences resources? Your opinion counts!</a></span><br>
+<p><a href="https://jfe.qualtrics.com/form/SV_7ZMXnczfRN3Ek5f" target="_blank"><b>Please take a few minutes to participate in a research study</b></a> on accessing library-based health sciences resources and services so we can better understand and meet your information needs.&nbsp; This <a href="https://jfe.qualtrics.com/form/SV_7ZMXnczfRN3Ek5f">survey</a> is intended for faculty, students and staff in the life sciences and related disciplines.
+<a class="feature-more-link" href="http://www.libraries.rutgers.edu/news/do-you-use-libraries-health-sciences-resources-your-opinion-counts">MORE&nbsp;</a></p></div>  </div></div>
+  </div>
+</div>
+  </div>
+    </div>
+  
+  
+  
+  
+  
+  
+</div>    </div>
+  
+      <div class="view-content">
+      <div class="item-list">    <ul>          <li class="views-row views-row-1 views-row-odd views-row-first">  
+  <div class="views-field views-field-title">        <span class="field-content"><a href="http://www.libraries.rutgers.edu/news/workshop-offers-expert-tips-flow-citationreference-tool"><img class="news_li" src="./Home   Rutgers University Libraries_files/arrow2.png">&nbsp;Workshop offers expert tips on Flow, a citation/reference tool</a></span>  </div></li>
+          <li class="views-row views-row-2 views-row-even">  
+  <div class="views-field views-field-title">        <span class="field-content"><a href="http://www.libraries.rutgers.edu/news/ru-libraries-share-expertise-myanmar-librarians"><img class="news_li" src="./Home   Rutgers University Libraries_files/arrow2.png">&nbsp;RU Libraries share expertise with Myanmar librarians</a></span>  </div></li>
+          <li class="views-row views-row-3 views-row-odd">  
+  <div class="views-field views-field-title">        <span class="field-content"><a href="http://www.libraries.rutgers.edu/news/talk-finns-and-swedes-early-nj-thurs-november-6"><img class="news_li" src="./Home   Rutgers University Libraries_files/arrow2.png">&nbsp;Talk on Finns and Swedes in early NJ, Thurs November 6</a></span>  </div></li>
+          <li class="views-row views-row-4 views-row-even">  
+  <div class="views-field views-field-title">        <span class="field-content"><a href="http://www.libraries.rutgers.edu/news/thousands-movies-now-available-viewing-borrowing-douglass-library"><img class="news_li" src="./Home   Rutgers University Libraries_files/arrow2.png">&nbsp;Thousands of movies, now available for viewing &amp; borrowing, at Douglass Library </a></span>  </div></li>
+          <li class="views-row views-row-5 views-row-odd views-row-last">  
+  <div class="views-field views-field-title">        <span class="field-content"><a href="http://www.libraries.rutgers.edu/news/libraries-welcome-new-nj-regional-studies-librarianhead-public-services-special-collections"><img class="news_li" src="./Home   Rutgers University Libraries_files/arrow2.png">&nbsp;Libraries welcome new NJ regional studies librarian/head of public services in Special Collections</a></span>  </div></li>
+      </ul></div>    </div>
+  
+  
+  
+  
+  
+  
+</div>    </div>
+  </div>
+</section><section class="block block-block block-17 block-block-17 odd" id="block-block-17">
+  <div class="block-inner clearfix">
+              <h2 class="block-title">Featured Collection</h2>
+            
+    <div class="content clearfix">
+      <div id="scua_img"><a href="http://www.libraries.rutgers.edu/rul/exhibits/struggle_without_end/struggle_without_end.php#case:13/item:6"><img alt="" src="./Home   Rutgers University Libraries_files/cropped_civilwar.png" style="width: 280px; height: 220px;"></a>
+<div id="scua_img_caption">
+<p><a href="http://www.libraries.rutgers.edu/rul/exhibits/struggle_without_end/struggle_without_end.php#case:13/item:6">Civil War Record of Service for Israel Ward</a></p>
+</div>
+</div>
+
+<div id="scua_teaser">
+<p><a href="http://www.libraries.rutgers.edu/rul/exhibits/struggle_without_end/index.php"><strong>In Words and Pictures</strong></a></p>
+
+<p>As a member of Company A of the New Jersey Regiment Volunteer Infantry and the United States Navy, Israel Ward's Civil War service took him from New Jersey to Washington, DC; Fredericksburg, Virginia; North Carolina; Boston, and Pensacola Bay. Along with providing an account of Ward's activities, this record of service also shows battle scenes and "The Soldier's Friend," President Abraham Lincoln.</p>
+
+<p>Israel Ward's record of service and other <a href="http://www.libraries.rutgers.edu/rul/libs/scua/scua.shtml">Special Collections and University Archives</a> Civil War materials can be seen at the <a href="http://www.libraries.rutgers.edu/rul/exhibits/struggle_without_end/index.php">Struggle Without End: New Jersey and the Civil War</a> digital exhibition.</p>
+</div>
+
+<div style="font-style:italic; color:#666666;">&nbsp;</div>
+    </div>
+  </div>
+</section>  </div>
+	
+	
+	
+	
+	
+</div><!---------------------------------->
+	<?php include 'footer.php'; ?>
+<div/>
+</body>
+</html>
+	
+	

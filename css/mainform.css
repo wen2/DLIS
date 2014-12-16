@@ -1,0 +1,35 @@
+#form {font-family:"Trebuchet MS", Verdana, sans-serif;width:25em}
+h2 {margin:0 0 0 0;padding:0}
+p {margin:0 0 1em 0;padding:0;font-size:90%}
+fieldset {background:#C361D2;border:none;margin-bottom:1em;width:42em;padding-top:1.5em}
+
+p.legend {background:#DED983;color:black;padding:.2em .3em;font-size:1.2em;border:2px outset #DED983;position:relative;margin-bottom:-1em;width:20em;margin-left:1em;margin-top:1em}
+
+#personal {background:#11EE11;border:outset #f3b4f5}
+
+#choices {background:Yellow;border:outset #f5d9b4}
+#suggestions {background:#B4F5AA;border:outset #b4f5da}
+
+#personal label {position:absolute;font-size:90%;padding-top:.2em;left:50px}
+#personal input {margin-left:9em;line-height:1.4em;margin-bottom:.2em;}
+
+#choices label {position:absolute;padding-top:.2em;left:50px}
+select {margin-left:12em;margin-bottom:0}
+
+
+#friendly {font-size:90%}
+#friendly input {margin-left:12em}
+#friendly input + input {margin-left:1em}
+#friendly br + input {margin-left:12em}
+
+#others {font-size:90%}
+#others input {margin-left:12em}
+#others input + input {margin-left:1em}
+#others br + input {margin-left:12em}
+
+
+textarea {font:.8em "Trebuchet MS", Verdana, sans-serif;width:40em;padding:.2em}
+
+input[type="submit"], input[type="reset"] {background:#DED983;font:1.2em "Trebuchet MS", Verdana, sans-serif}
+
+#buttons {text-align:center}

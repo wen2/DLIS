@@ -1,0 +1,310 @@
+@charset "utf-8";
+/* CSS Document */ 
+
+
+/* --------------------------------------------------------------------------*/
+/* HTML5 display-role reset for older browsers */
+
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+/**
+ * 100% height layout with header and footer
+ * ----------------------------------------------
+ * Feel free to copy/use/change/improve
+ */
+
+html,body {
+	margin:0;
+	padding:0;
+	height:100%; /* needed for container min-height */
+	background:gray;
+	
+	font-family:arial,sans-serif;
+	font-size:small;
+	color:#666;
+}
+
+
+h1 { 
+	font:1.75em georgia,serif; 
+	margin:0.5em 0;
+}
+
+h2 {
+	font:1.5em georgia,serif; 
+	margin:0.5em 0.5em;
+}
+h3 {
+	font:1.25em georgia,serif; 
+	margin:0.5em 0.5em;
+}
+	h1, h2, h3, a {
+		color:orange;
+	}
+
+p { 
+	line-height:1.5; 
+	margin:0 0 1em;
+}
+ul {list-style-type: circle;}
+ul li
+{
+margin-left:30px;
+padding-left: 10px; 
+}
+
+table, td, th
+{
+border:1px solid green;
+border-collapse:collapse;
+}
+th
+{
+background-color:green;
+color:white;
+}
+img
+{
+background-image:url('images\default.jpg');
+width:60px;
+}
+
+/*HTML5 New*/
+header , #header  {
+	padding:0.5em;
+	border-bottom:6px double green;
+}
+header p , #header p{
+		font-style:italic;
+		font-size:1em;
+		margin:0;
+	}
+	/*
+nav , #nav
+        {
+            font-size: 16px;
+            background-color: !#E1E3F7;
+            padding: 5px;
+            margin-top: 5px;
+        }
+		
+.nav2
+        {
+            font-size: 14px;
+            background-color: #E1E3E7;
+            padding: 5px;
+            margin-top: 5px;
+        }		
+*/		
+main
+        {
+        font-size: 12px;
+		padding: 5px;
+        }
+
+footer , #footer{
+	position:absolute;
+	width:100%;
+	bottom:0; /* 0: stick to bottom */
+	background:#ddd;
+	border-top:6px double green;
+	
+}
+footer p, #footer p{padding-left: 20px;}
+
+aside{line-height:200%}
+
+
+/*class--------------------------------------------------*/
+.leftside{float:left;width:45%;margin-left:20px;}
+.rightside{float:right;width:45%;}
+
+tr.spaceUnder > td
+{
+  padding-bottom: 1em;
+}
+
+/*row for clear float*/
+.row:before,
+.row:after {
+  display: table;
+  content: " ";
+}
+.row:after {
+  clear: both;
+}
+
+.data1{background-color:#00dd00;}
+
+/*aligned*/
+
+/*-------*/
+.survey label {     display:inline-block;
+    background-color:#ddd;
+    padding:4px 11px;
+    font-family:Arial;
+    font-size:16px;
+	text-align:center; width:250px;  border-radius: 15px;}
+.survey input{ margin-left: 20px; }
+.text-center {
+  text-align: center;
+}
+.floatLeft
+        {
+            float: left;
+            margin-left: 5px;
+            margin-right: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: medium;
+            border-style: solid;
+            border-color: black;
+        }
+.floatRight
+        {
+            float: right;
+            margin-left: 5px;
+            margin-right: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: medium;
+            border-style: solid;
+            border-color: black;
+        }
+
+/*id------------------------------*/
+#container {
+	position:relative; /* needed for footer positioning*/
+	margin:0 auto; /* center, not in IE5 */
+	width:800px;
+	background:#f0f0f0;
+	
+	height:auto !important; /* real browsers */
+	height:100%; /* IE6: treaded as min-height*/
+
+	min-height:100%; /* real browsers */
+	
+}
+
+
+#content {
+	margin-left:1em;
+	padding:1em 1em 5em; /* bottom padding for footer */
+	min-height:600px;
+}
+#content p {
+		text-align:justify;
+		padding:0 1em;
+	}
+
+
+#rightSidebar {
+	float:right;
+	width:120px;
+	height:400px;
+	margin:20px;
+	padding:5px;
+	border-width:thin;
+	border-style:solid;
+	border-color:#0000AA;
+	border-top: 10px solid #0000AA;
+	border-bottom: 10px solid #0000AA; 
+}
+/*
+http://jsfiddle.net/leaverou/CGP87/light/
+*/	
+.rating {
+    float:left;
+}
+
+/* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
+   follow these rules. Every browser that supports :checked also supports :not(), so
+   it doesn’t make the test unnecessarily selective */
+.rating:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+    clip:rect(0,0,0,0);
+}
+
+.rating:not(:checked) > label {
+    float:right;
+    width:1em;
+    padding:0 .1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:200%;
+    line-height:1.2;
+    color:#ddd;
+    text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating:not(:checked) > label:before {
+    content: '★ ';
+}
+
+.rating > input:checked ~ label {
+    color: #f70;
+    text-shadow:1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+    color: gold;
+    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating > input:checked + label:hover,
+.rating > input:checked + label:hover ~ label,
+.rating > input:checked ~ label:hover,
+.rating > input:checked ~ label:hover ~ label,
+.rating > label:hover ~ input:checked ~ label {
+    color: #ea0;
+    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating > label:active {
+    position:relative;
+    top:2px;
+    left:2px;
+}
+
+
+div.pagination {
+	padding: 3px;
+	margin: 3px;
+}
+
+div.pagination a {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #AAAADD;
+	
+	text-decoration: none; /* no underline */
+	color: #000099;
+}
+div.pagination a:hover, div.pagination a:active {
+	border: 1px solid #000099;
+
+	color: #000;
+}
+div.pagination span.current {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+		border: 1px solid #000099;
+		
+		font-weight: bold;
+		background-color: #000099;
+		color: #FFF;
+	}
+	div.pagination span.disabled {
+		padding: 2px 5px 2px 5px;
+		margin: 2px;
+		border: 1px solid #EEE;
+	
+		color: #DDD;
+	}
+	

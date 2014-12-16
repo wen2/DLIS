@@ -1,0 +1,231 @@
+@charset "utf-8";
+/* CSS Document */ 
+
+/* BEGIN CSS "Clean Slate" */
+
+
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+table.center {
+    margin-left:auto; 
+    margin-right:auto;
+  }
+
+
+/* --------------------------------------------------------------------------*/
+/* HTML5 display-role reset for older browsers */
+
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+/**
+ * 100% height layout with header and footer
+ * ----------------------------------------------
+ * Feel free to copy/use/change/improve
+ */
+
+html,body {
+	margin:0;
+	padding:0;
+	height:100%; /* needed for container min-height */
+	background:gray;
+	
+	font-family:arial,sans-serif;
+	font-size:small;
+	color:#666;
+}
+
+
+h1 { 
+	font:1.5em georgia,serif; 
+	margin:0.5em 0;
+}
+
+h2 {
+	font:1.25em georgia,serif; 
+	margin:0.5em 0.5em;
+}
+	h1, h2, a {
+		color:orange;
+	}
+
+p { 
+	line-height:1.5; 
+	margin:0 0 1em;
+}
+ul {list-style-type: circle;}
+ul li
+{
+margin-left:30px;
+padding-left: 10px; 
+}
+table {margin:0px 30px 30px 30px;}
+
+table, td, th
+{
+border:1px solid green;
+border-collapse:collapse;
+}
+th
+{
+background-color:green;
+color:white;
+}
+
+
+/*HTML5 New*/
+header , #header  {
+	padding:0.5em;
+	border-bottom:6px double green;
+}
+header p , #header p{
+		font-style:italic;
+		font-size:1em;
+		margin:0;
+	}
+	/*
+nav , #nav
+        {
+            font-size: 16px;
+            background-color: !#E1E3F7;
+            padding: 5px;
+            margin-top: 5px;
+        }
+		
+.nav2
+        {
+            font-size: 14px;
+            background-color: #E1E3E7;
+            padding: 5px;
+            margin-top: 5px;
+        }		
+*/		
+main
+        {
+        font-size: 12px;
+		padding: 5px;
+        }
+
+footer , #footer{
+	position:absolute;
+	width:100%;
+	bottom:0; /* 0: stick to bottom */
+	background:#ddd;
+	border-top:6px double green;
+	
+}
+footer p, #footer p{padding-left: 20px;}
+
+aside{line-height:200%}
+
+
+/*class--------------------------------------------------*/
+.leftside{float:left;width:45%;margin-left:20px;}
+.rightside{float:right;width:45%;}
+
+/*row for clear float*/
+.row:before,
+.row:after {
+  display: table;
+  content: " ";
+}
+.row:after {
+  clear: both;
+}
+
+.data1{background-color:#00dd00;}
+
+/*aligned*/
+
+/*-------*/
+.survey label {     display:inline-block;
+    background-color:#ddd;
+    padding:4px 11px;
+    font-family:Arial;
+    font-size:16px;
+	text-align:center; width:250px;  border-radius: 15px;}
+.survey input{ margin-left: 20px; }
+.text-center {
+  text-align: center;
+}
+.floatLeft
+        {
+            float: left;
+            margin-left: 5px;
+            margin-right: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: medium;
+            border-style: solid;
+            border-color: black;
+        }
+.floatRight
+        {
+            float: right;
+            margin-left: 5px;
+            margin-right: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: medium;
+            border-style: solid;
+            border-color: black;
+        }
+
+/*id------------------------------*/
+#container {
+	position:relative; /* needed for footer positioning*/
+	margin:0 auto; /* center, not in IE5 */
+	/*padding-left: 20px;*/
+	width:800px;
+	background:#f0f0f0;
+	
+	height:auto !important; /* real browsers */
+	height:100%; /* IE6: treaded as min-height*/
+
+	min-height:100%; /* real browsers */
+	
+}
+
+
+#content {
+	padding:1em 1em 5em; /* bottom padding for footer */
+	min-height:600px;
+}
+#content p {
+		text-align:justify;
+		padding:0 1em;
+	}
+
+
+#rightSidebar {
+	float:right;
+	width:120px;
+	height:400px;
+	margin:20px;
+	padding:5px;
+	border-width:thin;
+	border-style:solid;
+	border-color:#0000AA;
+	border-top: 10px solid #0000AA;
+	border-bottom: 10px solid #0000AA; 
+}
+	
+
